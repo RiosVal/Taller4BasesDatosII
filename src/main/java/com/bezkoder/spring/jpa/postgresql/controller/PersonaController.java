@@ -88,7 +88,27 @@ public class PersonaController {
         List<Object[]> resultado = personaRepository.findAvgAgeOfUnemployedGroupedByEstadoCivil();
         return new ResponseEntity<>(resultado, HttpStatus.OK);
     }
+    
+    @GetMapping("/personasOrdenadasPorEdadDescendente")
+    public ResponseEntity<List<Persona>> getPersonasOrdenadasPorEdadDescendente() {
+        List<Persona> personas = personaRepository.findAllOrderedByAgeDesc();
+        return new ResponseEntity<>(personas, HttpStatus.OK);
+    }
 	
+    
+    @GetMapping("/nombreYApellidoPorEdadMayorQue/{edad}")
+    public ResponseEntity<List<Object[]>> getNombreYApellidoPorEdadMayorQue(@PathVariable("edad") int edad) {
+        List<Object[]> resultados = personaRepository.findNombreYApellidoByEdadGreaterThan(edad);
+        return new ResponseEntity<>(resultados, HttpStatus.OK);
+    }
+    
+    @GetMapping("/cantidadPersonasPorEstadoCivil")
+    public ResponseEntity<List<Object[]>> getCantidadPersonasPorEstadoCivil() {
+        List<Object[]> resultados = personaRepository.countPersonasGroupedByEstadoCivilOrderedByCountDesc();
+        return new ResponseEntity<>(resultados, HttpStatus.OK);
+    }
+    
+    
 	@PostMapping("/buscarEstadoCivilLaboral")
 	public ResponseEntity<List<Persona>> getByEstadoCivilLaboral(@RequestBody Persona persona){
 		List<Persona> personas = new ArrayList<Persona>();
